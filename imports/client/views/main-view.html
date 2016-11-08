@@ -1,0 +1,86 @@
+<dom-module id='main-view'>
+
+  <template>
+    <style>
+
+    </style>
+
+    <app-location route={{route}} path={{path}}></app-location>
+    <app-route
+      pattern="/:page"
+      route={{route}}
+      data={{data}}
+      tail={{tail}}>
+    </app-route>
+
+    <iron-lazy-pages attr-for-selected='data-route' selected=[[path]]>
+      <template is='iron-lazy-page' data-route='/'>
+
+      </template>
+
+      <template is='iron-lazy-page' data-route='/verify-email'>
+      </template>
+
+      <template is='iron-lazy-page' data-route='/login'>
+        <login-view></login-view>
+      </template>
+
+      <template is='iron-lazy-page' data-route='/signup'>
+        <signup-view></signup-view>
+      </template>
+
+    </iron-lazy-pages>
+
+    <verify-email-view></verify-email-view>
+    <!-- <billing-view></billing-view> -->
+
+
+    <!-- <verification-checker></verification-checker> -->
+
+
+  </template>
+</dom-module>
+
+<script>
+require('@polymer/polymer/polymer.html');
+
+require('@polymer/app-route/app-route.html');
+require('@polymer/app-route/app-location.html');
+require('@polymer/iron-lazy-pages/iron-lazy-pages.html');
+
+require('../components/verification-checker/verification-checker.html');
+
+
+Polymer({
+  is: 'main-view',
+  observers: [
+    '_loadViewDependency(data)'
+  ],
+  listeners: {
+    'route-selected': 'changeRoute'
+  },
+  attached: function() {
+  },
+  // tells route path where to go
+  changeRoute: function(e) {
+    this.path = e.detail.path;
+
+    // this updates intercom to load new messages, etc.
+    window.Intercom("update");
+  },
+  _loadViewDependency: function(path) {
+    require('./submit-view.html');
+    require('./daily-view.html');
+    require('./list-view.html');
+    require('./verify-email-view.html');
+    require('./login-view.html');
+    require('./billing-view.html');
+
+
+
+    // console.log(path);
+    // console.log(`/imports/client/views/${path.page}-view.html`);
+    path.page === '' ? require(`/imports/client/views/daily-view.html`) : require(`/imports/client/views/${path.page}-view.html`);
+  }
+});
+</script>

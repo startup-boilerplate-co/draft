@@ -1,0 +1,31 @@
+<dom-module id='login-view'>
+  <template>
+    <style include='ink-variables ink-reset ink-flex-grid ink-colors ink-layout-helpers ink-typography'></style>
+    <style include='ink-theme-default'></style>
+    <style>
+      :host {
+        @apply(--mix-fixed-view);
+        @apply(--flx-ctr-ctr);
+        background: var(--g10);
+      }
+    </style>
+
+
+    <login-form logo='/svg/logo_positive.svg' rd-lg pd-xxlg ink-txt-c mw300>
+      <!-- <ink-head1></ink-head1> -->
+      <span class='footnote'>No commitment &ndash; You pay per voting</span>
+    </login-form>
+
+  </template>
+</dom-module>
+
+<script>
+  require('@polymer/polymer/polymer.html');
+  require('@andreasgalster/inkling/src/inkling.html');
+
+  require('../components/login-form/login-form.html');
+
+  Polymer({
+    is: 'login-view',
+  });
+</script>

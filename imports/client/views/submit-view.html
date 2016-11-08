@@ -1,0 +1,53 @@
+<dom-module id='submit-view'>
+  <template>
+    <style include='ink-variables ink-reset ink-flex-grid ink-colors ink-typography ink-layout-helpers ink-sticky'></style>
+    <style>
+      paper-dialog {
+        @apply(--mix-fixed-view);
+        background: green;
+        margin: 0;
+      }
+    </style>
+
+    <paper-dialog entry-animation='scale-up-animation' exit-animation='fade-out-animation'>
+      <ink-head1>
+        It's ok to cry a little &ndash; even unicorns do sometimes.
+      </ink-head1>
+      <ink-copy1>
+        Do you have a shocking startup story to tell? Did your startup's pitch deck lie when you mentioned that you had traction? You haven't been paid for three months
+        Awww... no, no, stop it's ok. Don't cry!
+      </ink-copy1>
+      <ink-copy1>
+        We know it can be hard at a startup sometimes. It's ok &ndash; just pour your heart out and share an anonymous startup confession.
+      </ink-copy1>
+
+      <paper-textarea char-counter maxlength='120'></paper-textarea>
+
+      <autosubmit-input></autosubmit-input>
+
+
+    </paper-dialog>
+  </template>
+</dom-module>
+
+<script>
+  require('@polymer/polymer/polymer.html');
+  require('@polymer/paper-dialog/paper-dialog.html');
+  require('@polymer/paper-input/paper-textarea.html');
+
+
+  require('../components/autosubmit-input/autosubmit-input.html');
+
+
+  require('@andreasgalster/inkling/dist/inkling.html');
+
+  Polymer({
+    is: 'submit-view',
+    attached: function() {
+      this.toggle();
+    },
+    toggle: function() {
+      this.$$('paper-dialog').toggle();
+    }
+  });
+</script>

@@ -1,0 +1,38 @@
+<dom-module id='autosubmit-input'>
+  <template>
+    <style include='ink-variables ink-reset ink-flex-grid ink-colors ink-typography ink-layout-helpers ink-sticky'></style>
+    <style>
+
+    </style>
+
+    <iron-autogrow-textarea>
+
+    </iron-autogrow-textarea>
+
+
+    <paper-textarea char-counter maxlength='120'></paper-textarea>
+
+
+    <ink-micro1>... press enter to submit your confession</ink-micro1>
+  </template>
+</dom-module>
+
+<script>
+  require('@polymer/polymer/polymer.html');
+  require('@polymer/iron-autogrow-textarea/iron-autogrow-textarea.html');
+  require('@polymer/paper-input/paper-textarea.html');
+
+
+  require('@andreasgalster/inkling/dist/inkling.html');
+
+  Polymer({
+    is: 'autosubmit-input',
+    properties: {
+    },
+    behaviors: [
+    ],
+    previousStep: function() {
+      this.fire('previous-step');
+    },
+  });
+</script>

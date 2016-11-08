@@ -1,0 +1,99 @@
+<dom-module id='billing-view'>
+  <template>
+    <style include='ink-variables ink-reset ink-flex-grid ink-colors ink-layout-helpers ink-typography'></style>
+    <style include='ink-theme-default'></style>
+    <style>
+      :host {
+        @apply(--mix-fixed-view);
+      }
+    </style>
+
+    <template is='dom-if' if=[[isTrial]]>
+      <ink-head1>You are currently enjoying the animatly trial.</ink-head1>
+      <ink-copy>Your trial will end on [[trialExpiry].</ink-copy>
+      <paper-button>Upgrade now</paper-button>
+    </template>
+
+    <template is='dom-if' if=[[isActive]]>
+      <ink-head1>You bought this shit congrats.</ink-head1>
+    </template>
+
+    <template is='dom-if' if=[[isNonRenewing]]>
+      <ink-head1>Your stuff will expire soon.</ink-head1>
+    </template>
+
+    <template is='dom-if' if=[[isCancelled]]>
+      <ink-head1>Woa why did you cancel?!.</ink-head1>
+    </template>
+
+
+
+  </template>
+</dom-module>
+
+<script>
+  require('@polymer/polymer/polymer.html');
+  require('@andreasgalster/inkling/src/inkling.html');
+
+  Polymer({
+    is: 'billing-view',
+    attached: function() {
+      this.getSubscriptionStatus();
+    },
+    getInvoicePDF: function() {
+      (async function() {
+        await Meteor.call('getInvoicePDF', (err,res) => { console.log(res) });
+      }());
+    },
+    getSubscriptionStatus: function() {
+      let self = this;
+      (async function() {
+        await Meteor.call('getSubscriptionStatus', (err,res) => {
+          self.subscriptionStatus = res;
+          switch (res) {
+            case 'in_trial':
+              self.isTrial = true;
+              break;
+            case 'active':
+              self.isActive = true;
+              break;
+            case 'non_renewing':
+              self.isNonRenewing = true;
+              break;
+            case 'cancelled':
+              self.isCancelled = true;
+          }
+        });
+        await Meteor.call('getSubscriptionStatus', (err,res) => { console.log(res) });
+
+      }());
+      // Meteor.call('test', (err,res) => { console.log(res) });
+      // Meteor.call('getSubscriptionStatus', (err,res) => { console.log(res) });
+    },
+    subscriptionStatusIs: function(status) {
+      switch (status) {
+        case 'in_trial':
+          day = "Sunday";
+          break;
+        case 'active':
+          day = "Monday";
+          break;
+        case 'non_renewing':
+          day = "Monday";
+          break;
+        case 'cancelled':
+          day = "Monday";
+      }
+
+      status === 'in_trial'
+      status === 'active'
+      status === 'non_renewing'
+      status === 'cancelled'
+    }
+
+    // active: The subscription is in active state and will be charged at start of each term based on the recurring items(plan & addons etc.,).
+    // non_renewing: The subscription will be cancelled at end of the current term.
+    // cancelled: The subscription has been cancelled. No new recurring actions will take place, but any pending payments will be collected.
+
+  });
+</script>
