@@ -5,3 +5,5 @@
 // import './methods_cloudinary.js';
 import './methods_email.js';
 import './methods_billing.js';
+import './methods_crm.js';
+import './methods_funnel.js';

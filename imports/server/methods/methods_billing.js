@@ -1,7 +1,7 @@
 const chargebee = require('chargebee');
 chargebee.configure({
-  site : Meteor.settings.chargebee.site,
-  api_key : Meteor.settings.chargebee.api_key
+  site : Meteor.settings.billing.site,
+  api_key : Meteor.settings.billing.apiKey
 });
 
 Meteor.methods({
@@ -68,24 +68,14 @@ Meteor.methods({
   },
 
 
-  subscription_create: function () {
+  subscription_create: function (credentials) {
     chargebee.subscription.create({
       plan_id : 'one_day_trial',
       customer : {
-        email : 'andreas@pigments.io',
-        first_name : 'Andreas',
-        last_name : 'Galster',
-        phone : '+1-949-999-9999',
+        email : credentials.email,
+        first_name : credentials.firstName,
+        last_name : credentials.lastName,
         auto_collection: 'off',
-      },
-      billing_address : {
-        first_name : 'Andreas',
-        last_name : 'Galster',
-        line1 : 'PO Box 9999',
-        city : 'Walnut',
-        state : 'California',
-        zip : '91789',
-        country : 'US'
       }
     }).request(function(error,result){
       if(error){

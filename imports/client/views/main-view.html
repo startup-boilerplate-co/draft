@@ -61,19 +61,22 @@ Polymer({
   },
   attached: function() {
   },
-  // tells route path where to go
   changeRoute: function(e) {
+    // tells route path where to go
     this.path = e.detail.path;
 
     // this updates intercom to load new messages, etc.
-    window.Intercom("update");
+    window.Intercom('update');
   },
   _loadViewDependency: function(path) {
+    require('./login-view.html');
+    require('./signup-view.html');
+
+
     require('./submit-view.html');
     require('./daily-view.html');
     require('./list-view.html');
     require('./verify-email-view.html');
-    require('./login-view.html');
     require('./billing-view.html');
 
 
